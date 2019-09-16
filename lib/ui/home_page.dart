@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:buscador_gifs/ui/gif_page.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -61,6 +62,7 @@ class _HomePageState extends State<HomePage> {
               onSubmitted:  (text){
                  setState(() {
                    _search = text;
+                   _offset = 0;
                  });
               },
             ),
@@ -117,11 +119,17 @@ class _HomePageState extends State<HomePage> {
               height: 300.0,
               fit: BoxFit.cover,
            ),
+             onTap: (){
+               Navigator.push(context,
+                MaterialPageRoute(builder: (context) =>GifPage(snapshot.data["data"][index]))
+               );
+             },
          );
          else
            return Container(
              child: GestureDetector(
                child: Column(
+                 mainAxisAlignment: MainAxisAlignment.center,
                  children: <Widget>[
                    Icon(Icons.add, color: Colors.white, size: 70,),
                    Text("Carregar mais...",
@@ -132,6 +140,11 @@ class _HomePageState extends State<HomePage> {
                    )
                  ],
                ),
+               onTap: (){
+                 setState(() {
+                   _offset +=19;
+                 });
+               },
              ),
            );
        },
